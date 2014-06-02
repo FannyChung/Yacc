@@ -362,7 +362,6 @@ void createLR(){
 	State lrset;
 	lrset.insert(zeroItem);
 	State c = Closure(lrset);//以开始状态求闭包作为第一个状态
-	//vector<State> J;
 	set<move> E;//所有边的集合
 	Graph T;//所有节点的集合
 	T.push_back(c);//第一个状态加入states集合
@@ -370,12 +369,6 @@ void createLR(){
 	set<tuple<State, Symbol*, LRItem*>> R;//规约映射
 
 	int i = 0;
-	//bool Echange = true;//集合E(边集合)是否改变
-	//bool Tchange = true;//集合T(状态集合)是否改变
-	//while (Echange || Tchange)
-	//{
-	//Echange = false;
-	//Tchange = false;
 	for (int j = 0; j < T.size(); j++)//对T中的每一个状态
 	{
 		State I = T[j];
@@ -390,23 +383,13 @@ void createLR(){
 			}
 			Symbol* X = lr->getSymbolAfterDot();//X是点之后的符号
 			if (existGOTO.insert(make_pair(j, X)).second){//如果以前不存在
-				//J.push_back(GOTO(I, X));//通过X的goto找到下一个状态J
 				T.push_back(GOTO(I, X));
 				i++;
 			}
-			//J.push_back(GOTO(I, X));//通过X的goto找到下一个状态J
-			//Graph::iterator irt = find(T.begin(), T.end(), J[i]);//----------------应该找到而没有找到
-			//if (irt == T.end()){//如果T中不存在状态J，加入新状态
-				//T.push_back(J[i]);
-				//		Tchange = true;
-			//}
 			if (E.insert(make_tuple(j, X,i)).second){//如果I状态以前没有X的出边，则增加出边到对应的状态-----第三个指针出问题
-				//			Echange = true;
 			}
-			//i++;
 		}
 	}
-	//}
 }
 
 int main(){
