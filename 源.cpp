@@ -25,6 +25,9 @@ set<Symbol*> termiSyb;//终结符的集合
 set<LRItem*, ProductionLess> prodSet;//产生式的集合
 set<Symbol*, SymbolLess> Symbols;//所有符号集合
 Symbol* startSymbol;//所有产生式的startSymbol
+set<tuple<State, Symbol*, LRItem*>> R;//规约映射
+set<tuple<int, Symbol*, int> > E;//所有边的集合
+Graph T;//所有节点的集合
 
 int readFile(){
 	set<string> stringOfSbls;//所有符号的string
@@ -358,15 +361,12 @@ void createLR(){
 	LRItem* zeroItem = new LRItem(beforeStartSb, setSb);//第0个产生式,使$成为预测符
 	zeroItem->addPreSymbol(endSymbol);
 
-	typedef tuple<int, Symbol*, int> move;
 	State lrset;
 	lrset.insert(zeroItem);
 	State c = Closure(lrset);//以开始状态求闭包作为第一个状态
-	set<move> E;//所有边的集合
-	Graph T;//所有节点的集合
+
 	T.push_back(c);//第一个状态加入states集合
 	set<pair<int, Symbol*>> existGOTO;//已经存在的从I通过X字符出去的边
-	set<tuple<State, Symbol*, LRItem*>> R;//规约映射
 
 	int i = 0;
 	for (int j = 0; j < T.size(); j++)//对T中的每一个状态
@@ -390,6 +390,12 @@ void createLR(){
 			}
 		}
 	}
+}
+
+
+//-----------------------------------------------------------------------------------建立分析表
+void createTB(){
+
 }
 
 int main(){
