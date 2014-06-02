@@ -346,6 +346,7 @@ State GOTO(State I, Symbol* X){//GOTO，求从状态I经过字符X到达新的状态
 	}
 	return Closure(J);
 }
+
 //构造LR项和LR状态图
 void createLR(){
 	//新建开始符和产生式(如S'->S$  )
@@ -382,8 +383,22 @@ void createLR(){
 				continue;
 			}
 			Symbol* X = lr->getSymbolAfterDot();//X是点之后的符号
-			if (existGOTO.insert(make_pair(j, X)).second){//如果以前不存在
-				T.push_back(GOTO(I, X));
+			State tem = GOTO(I, X);
+			bool existFlag = true;
+			for each (LRItem* var in tem)
+			{
+				for each (State st in T)
+				{
+					existFlag = true;
+					for each (LRItem* lr in st)
+					{
+					}
+					if (existFlag)
+						break;
+				}
+			}
+			if (!existFlag){//如果以前不存在-----------------------出错，因为State里的是指针
+				T.push_back(tem);
 				i++;
 			}
 			if (E.insert(make_tuple(j, X,i)).second){//如果I状态以前没有X的出边，则增加出边到对应的状态-----第三个指针出问题
@@ -395,7 +410,11 @@ void createLR(){
 
 //-----------------------------------------------------------------------------------建立分析表
 void createTB(){
-
+	for (int i = 0; i < T.size();i++)
+	{
+		State state = T[i];
+		set<tuple<int, Symbol*, int>>::iterator itr=E.begin();
+	}
 }
 
 int main(){

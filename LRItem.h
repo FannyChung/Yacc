@@ -73,6 +73,19 @@ public:
 	}
 };
 
+/*
+class StateLess : public std::binary_function<State, State, bool>{//比较两个state里的LRItem指针里的内容是否一样
+public:
+	bool operator () (State lhs, State rhs) const
+	{
+		for each (LRItem* lr in lhs)
+		{
+			for each(LRItem* rr in rhs)
+				;
+		}
+		return true;
+	}
+};*/
 
 typedef set<LRItem*, LRNoPreLess> State;
 typedef vector<State> Graph;
